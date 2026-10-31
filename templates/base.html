@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}OWASP Top 10:2025 Lab{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="warnbar">⚠ INTENTIONALLY VULNERABLE — isolated lab use only. Never deploy or expose to a network.</div>
+
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}">
+      <span class="shield">🛡</span>
+      <span>OWASP Top&nbsp;10:2025 <em>Secure Coding Lab</em></span>
+    </a>
+    <nav class="account">
+      {% if user %}
+        <span class="who">signed in: <strong>{{ user['username'] }}</strong> ({{ user['role'] }}) · balance {{ user['balance'] }}</span>
+        <a class="btn ghost" href="{{ url_for('logout') }}">Log out</a>
+      {% else %}
+        <a class="btn ghost" href="{{ url_for('login') }}">Log in</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="foot">
+    CADMUS-CR-15 · Secure Coding (Python) · Teaching material for module N1 and the Cyber Range labs.
+    Categories per <a href="https://owasp.org/Top10/2025/">OWASP Top 10:2025</a>.
+  </footer>
+</body>
+</html>

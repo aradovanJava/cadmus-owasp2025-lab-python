@@ -1,0 +1,18 @@
+# ============================================================================
+#  A03:2025 — Software Supply Chain Failures  ·  SCAN TARGET (do NOT install)
+# ----------------------------------------------------------------------------
+#  This manifest pins deliberately OUTDATED packages with known CVEs, for the
+#  Cyber Range dependency-scanning exercise (CR3). Run a scanner against it:
+#
+#     pip-audit -r requirements-vulnerable.txt
+#     snyk test --file=requirements-vulnerable.txt
+#
+#  Then generate an SBOM from the CLEAN manifest:
+#     pip install cyclonedx-bom
+#     cyclonedx-py requirements -i requirements.txt -o sbom.json
+# ============================================================================
+Flask==0.12.2       # CVE-2018-1000656  denial of service via crafted JSON
+Jinja2==2.10        # CVE-2019-10906    sandbox escape
+requests==2.19.1    # CVE-2018-18074    credential leak on cross-host redirect
+PyYAML==5.1         # CVE-2020-1747     arbitrary code execution via full_load
+urllib3==1.24.1     # CVE-2019-11324    certificate verification weakness

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero">
+    <h1>OWASP Top&nbsp;10:2025 — one vulnerable app, ten lessons</h1>
+    <p>Every card below is a live, deliberately broken feature. Open one to exploit it,
+       read the vulnerable code, and see the secure fix side by side. Use it to practise
+       the module&nbsp;N1 skill: <em>spot the weakness, map it to a category, name the control.</em></p>
+    <p class="hint">Demo logins: <code>admin / admin</code> · <code>alice / password1</code> · <code>bob / qwerty</code></p>
+  </section>
+
+  <section class="grid">
+    {% for key, m in catalog.items() %}
+      <a class="card" href="{{ url_for('category', key=key) }}">
+        <div class="card-head">
+          <span class="code">{{ m.code }}</span>
+          {% if m.tag %}<span class="pill {{ 'new' if 'NEW' in m.tag else 'moved' }}">{{ m.tag }}</span>{% endif %}
+        </div>
+        <h3>{{ m.name }}</h3>
+        <p>{{ m.blurb }}</p>
+        <span class="open">Open demo →</span>
+      </a>
+    {% endfor %}
+  </section>
+{% endblock %}

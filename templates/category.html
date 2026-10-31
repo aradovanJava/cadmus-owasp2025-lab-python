@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ meta.code }} {{ meta.name }}{% endblock %}
+{% block content %}
+  <a class="back" href="{{ url_for('index') }}">← all categories</a>
+
+  <div class="cat-head">
+    <span class="code big">{{ meta.code }}</span>
+    <div>
+      <h1>{{ meta.name }}</h1>
+      {% if meta.tag %}<span class="pill {{ 'new' if 'NEW' in meta.tag else 'moved' }}">{{ meta.tag }}</span>{% endif %}
+    </div>
+  </div>
+
+  <p class="lead">{{ meta.blurb }}</p>
+
+  <div class="rc">
+    <div><span class="lbl bad">Root cause</span><p>{{ meta.root_cause }}</p></div>
+    <div><span class="lbl good">Control</span><p>{{ meta.control }}</p></div>
+  </div>
+
+  <section class="panel">
+    <h2>Live demo</h2>
+    {% for form in meta.forms %}
+      <form class="demo" method="post" action="{{ form.action }}">
+        <label>{{ form.label }}</label>
+        <div class="row">
+          {% for f in form.fields %}
+            <input type="text" name="{{ f.name }}"
+                   placeholder="{{ f.placeholder if f.placeholder is defined else f.name }}"
+                   value="{{ f.value if f.value is defined else '' }}">
+          {% endfor %}
+          <button class="btn" type="submit">{{ form.submit }}</button>
+        </div>
+      </form>
+    {% endfor %}
+
+    {% if result is not none %}
+      <div class="result">
+        <span class="result-lbl">Result</span>
+        {% if result_is_html %}
+          <div class="result-html">{{ result | safe }}</div>
+          <p class="xss-note">↑ This block renders your input as raw HTML — that is the XSS.</p>
+        {% else %}
+          <pre>{{ result }}</pre>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="codes">
+    <div class="codecol bad">
+      <h2><span class="dot"></span>Vulnerable code</h2>
+      <pre>{{ vuln_code }}</pre>
+    </div>
+    <div class="codecol good">
+      <h2><span class="dot"></span>Secure fix</h2>
+      <pre>{{ fix_code }}</pre>
+    </div>
+  </section>
+
+  <section class="mapping">
+    <span><strong>OWASP:</strong> <a href="{{ meta.owasp }}" target="_blank" rel="noopener">{{ meta.code }} {{ meta.name }}</a></span>
+    <span><strong>MITRE ATT&amp;CK:</strong> {{ meta.mitre }}</span>
+  </section>
+{% endblock %}
